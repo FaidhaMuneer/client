@@ -1,22 +1,3 @@
-
-
-
-button{
-    margin: 20px;
-    
-}
-
-label{
-    margin-left: 25px;
-}
-
-input,select,button{
-    margin-left: 40px;
-}
-
-input,select,button,label{
-    font-size: large;
-}
 h1 {
     text-align: center;
 }
@@ -26,7 +7,7 @@ h1 {
     margin: 0;
     box-sizing: border-box;
     font-size: large;
-    font-family:cursive;
+    /* font-family:cursive; */
 
 }
 
@@ -34,15 +15,11 @@ body{
     background:#D3D3D3;
     width: 100%;
     height: 100vh;
-    display: grid;
+    /* display: grid; */
     place-items: center;
     color: black;
     font-size: large;
-    font-family: cursive;
-}
-
-.form{
-    position: relative;
+    /* font-family: cursive; */
 }
 
 .textbox{
@@ -50,8 +27,12 @@ body{
     border-radius:5px ;
     outline: black;
     background: white;
-    padding: 10px;
+    /* padding: 10px; */
     color: black;
 
+}
+
+.mobile-invalid{
+    color: red;
 }
 
