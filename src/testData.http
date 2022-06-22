@@ -1,0 +1,15 @@
+POST http://localhost:5000/create
+Content-Type: application/json
+
+{
+    "Firstname": "firstName",
+      "Lastname": "lastName",
+      "Email": "email",
+      "MobileNumber": "mobileNumber",
+      "Address": "address",
+      "Zipcode": "zipcode",
+      "Country": "country",
+      "recognition": "recognition",
+      "Amount": "amount",
+      "Anonymous": "anonymous"
+}

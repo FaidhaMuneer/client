@@ -12,17 +12,17 @@ const Donation = () => {
   const [zipcode, setZipcode] = useState("");
   const [country, setCountry] = useState("");
   const [recognition, setRecognition] = useState(false);
-  const [anonymous, setAnonymous] = useState("YES");
+  const [anonymous, setAnonymous] = useState(true);
   const [amount, setAmount] = useState("");
+  const [data, setdata] = useState("");
   // const [error, setError] = useState(false);
   const [validated, setValidated] = useState(false);
 
   const saveUser = async (userDetails) => {
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/insert/`,
-        { Donation: userDetails },
-      );
+      const res = await axios.post(`http://localhost:3300/api/create/`, {
+        Donation: userDetails,
+      });
       if (res.data.created) {
         console.log(res.data.success.message);
       } else {
@@ -31,6 +31,7 @@ const Donation = () => {
     } catch (err) {
       console.log(err);
     }
+    buyNow();
   };
 
   // axios
@@ -42,7 +43,12 @@ const Donation = () => {
   //   });
 
   const handleAnonymous = (anonymous) => {
-    setAnonymous(anonymous);
+    if (anonymous === "YES") {
+      setAnonymous(true);
+    } else {
+      setAnonymous(false);
+    }
+
   };
 
   const handleSubmit = (event) => {
@@ -54,21 +60,48 @@ const Donation = () => {
     setValidated(true);
 
     const formData = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      mobileNumber: mobileNumber,
-      address: address,
-      zipcode: zipcode,
-      country: country,
+      Firstname: firstName,
+      Lastname: lastName,
+      Email: email,
+      MobileNumber: mobileNumber,
+      Address: address,
+      Zipcode: zipcode,
+      Country: country,
       recognition: recognition,
-      amount: amount,
-      anonymous: anonymous,
+      Amount: amount,
+      Anonymous: anonymous,
     };
-    console.log(formData);
-    // saveUser(formData);
+    saveUser(formData);
+    setdata(formData);
+    console.log(formData.Amount);
   };
 
+  async function buyNow() {
+    const Price = amount;
+    const heading = "donation";
+    const resp = await axios.get(`http://localhost:3300/api/payment/${Price}`);
+
+    const { data } = resp;
+    const payid = resp.id;
+
+    const options = {
+      key: "rzp_test_uBjkVyh3bjKpHi",
+      name: heading,
+      description: "Consistency=Success",
+      image:
+        "https://res.cloudinary.com/practicaldev/image/fetch/s--KXnc-eL7--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/i/j8dm03jh5qbmgxvq2an3.png",
+      order_id: data.id,
+      handler: async (response) => {
+        console.log(response);
+      },
+      theme: {
+        color: "#ff0000",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+    console.log(resp);
+  }
   return (
     <div className="form mt-3 mb-3">
       <h1>Donate</h1>
@@ -82,14 +115,14 @@ const Donation = () => {
               required
               onChange={(event) => setAmount(event.target.value)}
               type="text"
-              placeholder="Rs.1000.00"
+              placeholder="USD 1000.00"
             />
           </Form.Group>
         </Row>
 
         <Row className="mb-3">
           <Form.Group as={Col} md="6">
-            <Form.Label>Donar's First name</Form.Label>
+            <Form.Label>Donor's First name</Form.Label>
             <Form.Control
               required
               type="text"
@@ -98,7 +131,7 @@ const Donation = () => {
             />
           </Form.Group>
           <Form.Group as={Col} md="6">
-            <Form.Label>Donar's Last name</Form.Label>
+            <Form.Label>Donor's Last name</Form.Label>
             <Form.Control
               required
               type="text"
@@ -114,7 +147,7 @@ const Donation = () => {
             <Form.Control
               required
               type="email"
-              pattern={"[a-zA-Z0-9\._-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9\.]{0,}"}
+              pattern={"[a-zA-Z0-9._-]+@[a-zA-Z0-9]+.[a-zA-Z0-9.]{0,}"}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="example@example.com"
             />
@@ -127,7 +160,7 @@ const Donation = () => {
             <Form.Label>Mobile Number</Form.Label>
             <Form.Control
               type="text"
-              pattern={"[0-9]{10}"}
+              pattern={"[0-9]{10,12}"}
               onChange={(event) => setMobileNumber(event.target.value)}
               placeholder="mobileNumber"
               required
@@ -137,7 +170,6 @@ const Donation = () => {
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
-
 
         <Row className="mb-3">
           <Form.Group as={Col} md="6">
@@ -185,7 +217,7 @@ const Donation = () => {
           <Form.Group as={Col} md="6">
             <Form.Label>Is this an anonymous gift?</Form.Label>
             <Form.Select
-              value={anonymous}
+              value={anonymous ? "YES": "NO"}
               onChange={(event) => {
                 handleAnonymous(event.target.value);
               }}
@@ -202,7 +234,7 @@ const Donation = () => {
             onChange={(event) => setRecognition(event.target.checked)}
           />
         </Form.Group>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Donate</Button>
       </Form>
     </div>
   );
