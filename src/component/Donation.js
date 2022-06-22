@@ -58,6 +58,11 @@ const Donation = () => {
       event.stopPropagation();
     }
     setValidated(true);
+    for(let i = 0; i <form.length; i++) {
+      if(!form[i].validity.valid){
+        return;
+      }
+    }
 
     const formData = {
       Firstname: firstName,
