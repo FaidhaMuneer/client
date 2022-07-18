@@ -1,0 +1,57 @@
+@media (max-width:998px) {
+    .lcccName{
+        display: block;
+    }
+
+}
+@media (max-width:768px) {
+    .footerColumn{
+        margin-top: 35px;
+        text-align: center;
+    }
+        .footerSubHeading h4
+        {
+            text-align: center !important;
+            /* margin-left: 15px !important; */
+            /* color: #c4c4c4; */
+        }
+        .footerhr{
+            width: 100% !important;
+        }
+        /* .mediaLinks .media{
+            text-align: center !important;
+        } */
+}
+
+.footer{
+    color: whitesmoke;
+    background-color: rgb(8, 11, 32) !important;
+    margin-top: 3rem;
+    padding-top: 2rem;
+}
+
+.footerSubHeading h4, .mediaLinks{
+    text-align: left;
+    margin-left: 15px !important;
+    color: #c4c4c4;
+}
+
+
+.list-group-item {
+    color: #ffffff;
+    background-color:rgb(8, 11, 32) !important;
+    color:  white !important;
+    text-decoration: none !important;
+}
+.list-group-item > a {
+    text-decoration: none !important;
+}
+.media{
+    width: 80%;
+}
+
+
+
+.linktag{
+    text-decoration: none !important;
+}

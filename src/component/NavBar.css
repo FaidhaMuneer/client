@@ -1,0 +1,41 @@
+@media(min-width:992px) {
+    .navContainer{
+        flex-direction: column;
+     }
+     .hide-for-lg-screen{
+         display: none;
+     } 
+ }
+ @media (min-width:0px) and (max-width:992px) {  
+     .navContainer img {
+         width: 150px;
+         height: 150px;
+         margin-bottom: 15px;
+     }
+     .NavbuttonGroup {
+         display: none !important;
+     }
+ }
+ .btn-div{
+     width: 100px;
+ }
+ .nav-link:focus {
+     border-bottom: 3px solid #fff;
+ }
+ .navigationBar{
+     background-color: black;
+     background-image: url('https://github.com/CodeMatesGang/-codeMates/blob/main/src/images/navBackground.jpg') !important; 
+     top: -61px;
+ 
+ }
+ .navContainer{
+     background-color: rgba(0, 0, 0, 0.8) !important;
+     top: -53px;
+ }
+ .navContainer img{
+     margin-top: 15px;
+ }
+ .smScreenBtn{
+     padding-left: 46% !important;
+     padding-right: 40% !important;
+ }

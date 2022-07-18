@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import Swal from "sweetalert2";
 import "../component/Donation.css";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
-
+import { message } from "antd";
+import "antd/dist/antd.css";
 const Donation = () => {
+  let history = useHistory();
   const [firstName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -25,22 +29,14 @@ const Donation = () => {
       });
       if (res.data.created) {
         console.log(res.data.success.message);
+        buyNow();
       } else {
         console.log(res.data.errors.message);
       }
     } catch (err) {
       console.log(err);
     }
-    buyNow();
   };
-
-  // axios
-  //   .post("http://localhost:5000/api/insert", {
-  //     // formData
-  //   })
-  //   .then(() => {
-  //     alert("Succesfully Submitted");
-  //   });
 
   const handleAnonymous = (anonymous) => {
     if (anonymous === "YES") {
@@ -48,7 +44,6 @@ const Donation = () => {
     } else {
       setAnonymous(false);
     }
-
   };
 
   const handleSubmit = (event) => {
@@ -58,10 +53,10 @@ const Donation = () => {
       event.stopPropagation();
     }
     setValidated(true);
-    for(let i = 0; i <form.length; i++) {
-      if(!form[i].validity.valid){
+    for (let i = 0; i < form.length; i++) {
+      if (!form[i].validity.valid) {
         return;
-      }
+      }   
     }
 
     const formData = {
@@ -81,9 +76,10 @@ const Donation = () => {
     console.log(formData.Amount);
   };
 
+  console.log(amount);
   async function buyNow() {
     const Price = amount;
-    const heading = "donation";
+    const heading = "Donate Amount ";
     const resp = await axios.get(`http://localhost:3300/api/payment/${Price}`);
 
     const { data } = resp;
@@ -92,21 +88,27 @@ const Donation = () => {
     const options = {
       key: "rzp_test_uBjkVyh3bjKpHi",
       name: heading,
-      description: "Consistency=Success",
+      description: `Spread Humanity`,
       image:
-        "https://res.cloudinary.com/practicaldev/image/fetch/s--KXnc-eL7--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/i/j8dm03jh5qbmgxvq2an3.png",
+        "https://upload.wikimedia.org/wikipedia/en/thumb/5/5b/Lions_Clubs_International_logo.svg/200px-Lions_Clubs_International_logo.svg.png",
       order_id: data.id,
       handler: async (response) => {
         console.log(response);
+        message.success("Thank you for your Donation");
+        setTimeout(function () {
+          window.location.reload();
+        }, 100);
       },
       theme: {
-        color: "#ff0000",
+        color: "rgb(8, 11, 32)",
       },
     };
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
+
     console.log(resp);
   }
+
   return (
     <div className="form mt-3 mb-3">
       <h1>Donate</h1>
@@ -222,7 +224,7 @@ const Donation = () => {
           <Form.Group as={Col} md="6">
             <Form.Label>Is this an anonymous gift?</Form.Label>
             <Form.Select
-              value={anonymous ? "YES": "NO"}
+              value={anonymous ? "YES" : "NO"}
               onChange={(event) => {
                 handleAnonymous(event.target.value);
               }}
